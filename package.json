@@ -7,7 +7,9 @@
   , "keywords": [ "errors", "errno", "libuv" ]
   , "version": "0.0.3"
   , "main": "errno.js"
-  , "dependencies": {}
+  , "dependencies": {
+        "bind-component": "0.0.1"
+    }
   , "bin": {
         "errno": "./cli.js"
     }

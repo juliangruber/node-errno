@@ -1,3 +1,5 @@
+var bind = require('bind-component')
+
 function init (name, message, cause) {
   this.name      = name
   // can be passed just a 'cause'
@@ -38,7 +40,7 @@ function createError (errno, name, proto) {
 }
 
 module.exports = function (errno) {
-  var ce = createError.bind(null, errno)
+  var ce = bind(null, createError, errno)
   return {
       CustomError     : CustomError
     , FilesystemError : ce('FilesystemError')
