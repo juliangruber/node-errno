@@ -1,5 +1,7 @@
-function init (name, message, cause) {
-  this.name      = name
+function init (type, message, cause) {
+  this.type      = type
+  // backwards compatibility
+  this.name      = type
   // can be passed just a 'cause'
   this.cause     = typeof message != 'string' ? message : cause
   this.message   = !!message && typeof message != 'string' ? message.message : message
@@ -15,11 +17,11 @@ function CustomError (message, cause) {
 
 CustomError.prototype = new Error()
 
-function createError (errno, name, proto) {
+function createError (errno, type, proto) {
   var err = function (message, cause) {
-    init.call(this, name, message, cause)
+    init.call(this, type, message, cause)
     //TODO: the specificity here is stupid, errno should be available everywhere
-    if (name == 'FilesystemError') {
+    if (type == 'FilesystemError') {
       this.code    = this.cause.code
       this.path    = this.cause.path
       this.errno   = this.cause.errno
@@ -38,8 +40,8 @@ function createError (errno, name, proto) {
 }
 
 module.exports = function (errno) {
-  var ce = function (name, proto) {
-    return createError(errno, name, proto)
+  var ce = function (type, proto) {
+    return createError(errno, type, proto)
   }
   return {
       CustomError     : CustomError
