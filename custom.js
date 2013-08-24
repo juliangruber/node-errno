@@ -1,10 +1,25 @@
 function init (type, message, cause) {
-  this.type      = type
+  addEnumerable(this, 'type', type)
   // backwards compatibility
   this.name      = type
   // can be passed just a 'cause'
   this.cause     = typeof message != 'string' ? message : cause
   this.message   = !!message && typeof message != 'string' ? message.message : message
+}
+
+// set obj[key] = value and make it enumerable if possible
+function addEnumerable (obj, key, value) {
+  if (Object.defineProperty) {
+    Object.defineProperty(obj, key, {
+        value: value
+      , enumerable: true
+      , writable: true
+      , readable: true
+    })
+  } else {
+    obj[key] = value
+    return obj
+  } 
 }
 
 // generic prototype, not intended to be actually used - helpful for `instanceof`
